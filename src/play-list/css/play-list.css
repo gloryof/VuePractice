@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+section#play-music div.pains {
+    display: flex;
+    position: relative;
+}
+
+section#play-music ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    border-top: solid 1px #000;
+}
+
+section#play-music ul > li {
+    border-bottom: solid 1px #000;
+    border-left: solid 1px #000;
+    border-right: solid 1px #000;
+    display: flex;
+    width: 400px;
+}
+
+section#play-music ul.item-list {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+ul.item-list > li > .item-cells {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+ul.item-list > li .title {
+    width: 70%;
+}
+
+ul.item-list > li a.edit-button {
+    width: 15%;
+    text-align: center;
+    border-left: solid 1px #000;
+}
+
+ul.item-list > li a.delete-button {
+    width: 15%;
+    text-align: center;
+    border-left: solid 1px #000;
+}
+
+ul.item-list > li a.button-row {
+    width: 100%;
+    text-align: center;
+}
+
+div.modal {
+    background-color: #fff;
+    border: solid 1px #000;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 20px;
+    width: 400px;
+}
+
+div.modal > div.content {
+    margin: 16px;
+}
+
+div.modal > h1 {
+    background-color: #f8e352;
+    border-bottom: solid 1px #000;
+    color: #66b7ec;
+    margin: 0px;
+    padding-left: 8px;
+}

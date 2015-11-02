@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>プレイリスト</title>
+    <link href="css/play-list.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <section id="play-music">
+      <div class="pains">
+        <play-list
+           v-on:request-select="changePlayList"
+           v-on:request-create="openNewPlayListModal"
+           v-on:request-edit="openEditPlayListModal"
+           v-on:request-delete="deletePlayList">
+        </play-list>
+        <music-list
+           v-on:request-create="openNewMusicListModal"
+           v-on:request-edit="openEditMusicListModal"
+           v-on:request-delete="deleteMusic"
+           >
+        </music-list>
+      </div>
+      <play-modal></play-modal>
+      <music-modal
+         v-on:finish-save="refleshMusicList"></music-modal>
+    </section>
+    <script type="text/x-template" id="play-list-component">
+      <ul class="play-list item-list">
+        <li v-for="playInfo in playListData">
+          <a class="title item-cells" href="javascript:void(0)"
+             v-text="playInfo.name"
+             v-on:click="select(playInfo.id)">
+            プレイリスト1
+          </a>
+          <a class="edit-button item-cells" href="javascript:void(0)" v-on:click="edit(playInfo.id)">
+            [編集]
+          </a>
+          <a class="delete-button item-cells" href="javascript:void(0)"
+             v-on:click="remove(playInfo.id)">
+            [削除]
+          </a>
+        </li>
+        <li>
+          <a class="item-cells button-row" href="javascript:void(0)"
+             v-on:click="create">
+            +新規作成
+          </a>
+        </li>
+      </ul>
+    </script>
+    <script type="text/x-template" id="music-list-component">
+      <ul class="music-list item-list" v-show="style.view">
+        <li v-for="music in model.musicListData">
+          <span class="title item-cells" v-text="music.name">音楽</span>
+          <a class="edit-button item-cells" href="javascript:void(0)" v-on:click="edit(music.musicId)">
+            [編集]
+          </a>
+          <a class="delete-button item-cells" href="javascript:void(0)"
+             v-on:click="remove(music.musicId)">
+            [削除]
+          </a>
+        </li>
+        <li>
+          <a class="item-cells button-row" href="javascript:void(0)"
+             v-on:click="create">
+            +新規作成
+          </a>
+        </li>
+      </ul>
+    </script>
+    <script type="text/x-template" id="play-list-modal">
+      <div class="play-list-modal modal" v-show="style.view">
+        <h1>プレイリスト</h1>
+        <div class="content">
+          <dl>
+            <dt>名前</dt>
+            <dd><input type="text" v-model="model.name" /></dd>
+          </dl>
+          <button v-on:click="save">保存</button>
+          <button v-on:click="close">閉じる</button>
+        </div>
+      </div>
+    </script>
+    <script type="text/x-template" id="music-list-modal">
+      <div class="music-modal modal" v-show="style.view">
+        <h1>曲</h1>
+        <div class="content">
+          <dl>
+            <dt>名前</dt>
+            <dd><input type="text" v-model="model.name" /></dd>
+          </dl>
+          <button v-on:click="save">保存</button>
+          <button v-on:click="close">閉じる</button>
+        </div>
+      </div>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.4/vue.js" ></script>
+    <script src="lib/play-list-data.js"></script>
+    <script src="lib/music-data.js"></script>
+    <script src="lib/play-list.js"></script>
+    <script src="lib/music-list.js"></script>
+    <script src="lib/play-list-modal.js"></script>
+    <script src="lib/music-modal.js"></script>
+    <script src="lib/list-page.js"></script>
+  </body>
+</html>
