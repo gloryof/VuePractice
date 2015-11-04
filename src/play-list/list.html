@@ -70,28 +70,32 @@
       </ul>
     </script>
     <script type="text/x-template" id="play-list-modal">
-      <div class="play-list-modal modal" v-show="style.view">
-        <h1>プレイリスト</h1>
-        <div class="content">
-          <dl>
-            <dt>名前</dt>
-            <dd><input type="text" v-model="model.name" /></dd>
-          </dl>
-          <button v-on:click="save">保存</button>
-          <button v-on:click="close">閉じる</button>
+      <div class="play-list-modal modal" v-show="style.view" v-on:click="close">
+        <div class="modal-content" v-on:click.stop>
+          <h1>プレイリスト</h1>
+          <div class="modal-body">
+            <dl>
+              <dt>名前</dt>
+              <dd><input type="text" v-model="model.name" /></dd>
+            </dl>
+            <button v-on:click="save">保存</button>
+            <button v-on:click="close">閉じる</button>
+          </div>
         </div>
       </div>
     </script>
     <script type="text/x-template" id="music-list-modal">
-      <div class="music-modal modal" v-show="style.view">
-        <h1>曲</h1>
-        <div class="content">
-          <dl>
-            <dt>名前</dt>
-            <dd><input type="text" v-model="model.name" /></dd>
-          </dl>
-          <button v-on:click="save">保存</button>
-          <button v-on:click="close">閉じる</button>
+      <div class="music-modal modal" v-show="style.view" v-on:click="close">
+        <div class="modal-content" v-on:click.stop>
+          <h1>曲</h1>
+          <div class="modal-body">
+            <dl>
+              <dt>名前</dt>
+              <dd><input type="text" v-model="model.name" /></dd>
+            </dl>
+            <button v-on:click="save">保存</button>
+            <button v-on:click="close">閉じる</button>
+          </div>
         </div>
       </div>
     </script>
