@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+div.extractor {
+    margin-top: 16px;
+}
+
+div.extractor table.datas {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+div.extractor table.datas > thead > tr > th {
+    padding: 4px;
+    border: solid 1px #000;
+}
+
+div.extractor table.datas > tbody > tr > td {
+    padding: 4px;
+    border: solid 1px #000;
+}

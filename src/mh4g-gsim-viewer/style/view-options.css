@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+div.view-options div.list-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 1000px;
+}
+
+div.view-options dl {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 24px;
+}
+
+div.view-options dl > dt {
+    display: inline-block;
+}
+
+div.view-options dl > dt:after {
+    content: " : ";
+}
+
+div.view-options dl > dd {
+    display: inline-block;
+    margin-left: 0px;
+}

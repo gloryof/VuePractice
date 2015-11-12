@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>頑シミュCSV Viewer</title>
+    <link href="style/csv-loader.css" rel="stylesheet" type="text/css" />
+    <link href="style/view-options.css" rel="stylesheet" type="text/css" />
+    <link href="style/extractor.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <p>
+      頑張って作ったモンハンシミュレータ for MH4Gで公開されているCSVデータを読む為のツールです。<br>
+      データについては<a href="http://www.geocities.jp/masax_mh/mh4g/">こちら</a>からダウンロードしてください。<br>
+      
+    </p>
+    <div id="viewer">
+      <csv-loader v-on:load-result="setLoadData"></csv-loader>
+      <view-options v-on:change-setting="setViewOptions"></view-options>
+      <extractor v-bind:view-option="viewOptions" v-bind:results="loadData" ></extractor>
+    </div>
+    <script type="text/x-template" id="csv-loader">
+      <div class="csv-loader">
+        <fieldset>
+          <legend>
+            <a href="javascript:void(0)">CSVデータ</a>
+          </legend>
+          <textarea v-model="csvValues"></textarea>
+          <ul class="buttons">
+            <li>
+              <button v-on:click="load">読み込み</button>
+            </li>
+          </ul>
+        </fieldset>
+      </div>
+    </script>
+    <script type="text/x-template" id="view-options">
+      <div class="view-options" v-on:change.stop="reflectParent">
+        <fieldset>
+          <legend>
+            <a href="javascript:void(0)">表示オプション</a>
+          </legend>
+          <div class="list-wrap">
+            <dl class="options">
+              <dt>名前</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.name" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>性別</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.gender" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>タイプ</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.type" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>レア度</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.rare" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>スロット</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.slot" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>入手時期/村</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.timing.village" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>入手時期/集会所</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.timing.rally" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>初期防御力</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.difense.min" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>最終防御力</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.difense.max" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>火耐性</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.registance.fire" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>水耐性</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.registance.water" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>雷耐性</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.registance.thunder" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>氷耐性</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.registance.ice" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>龍耐性</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.registance.dragon" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>スキル</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.skills" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+            <dl class="options">
+              <dt>素材</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" v-model="option.materials" />
+                  表示する
+                </label>
+              </dd>
+            </dl>
+
+          </div>
+        </fieldset>
+      </div>
+    </script>
+    <script type="text/x-template" id="extractor">
+      <div class="extractor">
+        <table class="datas">
+          <thead>
+            <tr>
+              <th v-show="viewOption.name">名前</th>
+              <th v-show="viewOption.gender">性別</th>
+              <th v-show="viewOption.type">タイプ</th>
+              <th v-show="viewOption.rare">レア度</th>
+              <th v-show="viewOption.slot">スロット数</th>
+              <th v-show="viewOption.timing.village">入手時期/集</th>
+              <th v-show="viewOption.timing.rally">入手時期/村</th>
+              <th v-show="viewOption.difense.min">初期防御力</th>
+              <th v-show="viewOption.difense.max">最終防御力</th>
+              <th v-show="viewOption.registance.fire">火耐性</th>
+              <th v-show="viewOption.registance.water">水耐性</th>
+              <th v-show="viewOption.registance.thunder">雷耐性</th>
+              <th v-show="viewOption.registance.ice">氷耐性</th>
+              <th v-show="viewOption.registance.dragon">龍耐性</th>
+              <th v-show="viewOption.skills">スキル</th>
+              <th v-show="viewOption.materials">生産素材</th>
+            </tr>
+            <tr>
+              <th v-show="viewOption.name"></th>
+              <th v-show="viewOption.gender"></th>
+              <th v-show="viewOption.type"></th>
+              <th v-show="viewOption.rare"></th>
+              <th v-show="viewOption.slot"></th>
+              <th v-show="viewOption.timing.village"></th>
+              <th v-show="viewOption.timing.rally"></th>
+              <th v-show="viewOption.difense.min"></th>
+              <th v-show="viewOption.difense.max"></th>
+              <th v-show="viewOption.registance.fire"></th>
+              <th v-show="viewOption.registance.water"></th>
+              <th v-show="viewOption.registance.thunder"></th>
+              <th v-show="viewOption.registance.ice"></th>
+              <th v-show="viewOption.registance.dragon"></th>
+              <th v-show="viewOption.skills"></th>
+              <th v-show="viewOption.materials"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="equip in results">
+              <td v-text="equip.name" v-show="viewOption.name"></td>
+              <td v-text="equip.gender" v-show="viewOption.gender"></td>
+              <td v-text="equip.type" v-show="viewOption.type"></td>
+              <td v-text="equip.rare" v-show="viewOption.rare"></td>
+              <td v-text="equip.slot" v-show="viewOption.slot"></td>
+              <td v-text="equip.timing.village" v-show="viewOption.timing.village"></td>
+              <td v-text="equip.timing.rally" v-show="viewOption.timing.rally"></td>
+              <td v-text="equip.difense.min" v-show="viewOption.difense.min"></td>
+              <td v-text="equip.difense.max" v-show="viewOption.difense.max"></td>
+              <td v-text="equip.registance.fire" v-show="viewOption.registance.fire"></td>
+              <td v-text="equip.registance.water" v-show="viewOption.registance.water"></td>
+              <td v-text="equip.registance.thunder" v-show="viewOption.registance.thunder"></td>
+              <td v-text="equip.registance.ice" v-show="viewOption.registance.ice"></td>
+              <td v-text="equip.registance.dragon" v-show="viewOption.registance.dragon"></td>
+              <td v-show="viewOption.skills">
+                <dl v-for="skill in equip.skills" v-if="skill.value != null">
+                  <dt v-text="skill.name"></dt>
+                  <dd v-text="skill.value"></dd>
+                </dl>
+              </td>
+              <td v-show="viewOption.materials">
+                <dl v-for="material in equip.materials" v-if="material.count != null">
+                  <dt v-text="material.name"></dt>
+                  <dd v-text="material.count"></dd>
+                </dl>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.4/vue.js"></script>
+    <script src="lib/model/equipment.js"></script>
+    <script src="lib/model/view-option.js"></script>
+    <script src="lib/component/csv-loader.js"></script>
+    <script src="lib/component/view-options.js"></script>
+    <script src="lib/component/extractor.js"></script>
+    <script src="lib/list-page.js"></script>
+  </body>
+</html>
