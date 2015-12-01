@@ -11,7 +11,6 @@
     <p>
       頑張って作ったモンハンシミュレータ for MH4Gで公開されているCSVデータを読む為のツールです。<br>
       データについては<a href="http://www.geocities.jp/masax_mh/mh4g/">こちら</a>からダウンロードしてください。<br>
-      
     </p>
     <div id="viewer">
       <csv-loader v-on:load-result="setLoadData"></csv-loader>
@@ -184,13 +183,13 @@
                 </label>
               </dd>
             </dl>
-
           </div>
         </fieldset>
       </div>
     </script>
     <script type="text/x-template" id="extractor">
       <div class="extractor">
+        <span v-text="hoge"></span>
         <table class="datas">
           <thead>
             <tr>
@@ -212,29 +211,71 @@
               <th v-show="viewOption.materials">生産素材</th>
             </tr>
             <tr>
-              <th v-show="viewOption.name"></th>
-              <th v-show="viewOption.gender"></th>
-              <th v-show="viewOption.type"></th>
-              <th v-show="viewOption.rare"></th>
-              <th v-show="viewOption.slot"></th>
-              <th v-show="viewOption.timing.village"></th>
-              <th v-show="viewOption.timing.rally"></th>
-              <th v-show="viewOption.difense.min"></th>
-              <th v-show="viewOption.difense.max"></th>
-              <th v-show="viewOption.registance.fire"></th>
-              <th v-show="viewOption.registance.water"></th>
-              <th v-show="viewOption.registance.thunder"></th>
-              <th v-show="viewOption.registance.ice"></th>
-              <th v-show="viewOption.registance.dragon"></th>
-              <th v-show="viewOption.skills"></th>
-              <th v-show="viewOption.materials"></th>
+              <th v-show="viewOption.name">
+                <input type="text" v-model="condition.name" />
+              </th>
+              <th v-show="viewOption.gender">
+                <select v-model="condition.gender">
+                  <option value="">全て</option>
+                  <option value="0">両</option>
+                  <option value="1">男</option>
+                  <option value="2">女</option>
+                </select>
+              </th>
+              <th v-show="viewOption.type">
+                <select v-model="condition.type">
+                  <option value="">全て</option>
+                  <option value="0">両方</option>
+                  <option value="1">剣士</option>
+                  <option value="2">ガンナー</option>
+                </select>
+              </th>
+              <th v-show="viewOption.rare">
+                <input type="text" v-model="condition.rare" />
+              </th>
+              <th v-show="viewOption.slot">
+                <input type="text" v-model="condition.slot" />
+              </th>
+              <th v-show="viewOption.timing.village">
+                <input type="text" v-model="condition.village" />
+              </th>
+              <th v-show="viewOption.timing.rally">
+                <input type="text" v-model="condition.rally" />
+              </th>
+              <th v-show="viewOption.difense.min">
+                <input type="text" v-model="condition.difense.min" />
+              </th>
+              <th v-show="viewOption.difense.max">
+                <input type="text" v-model="condition.difense.max" />
+              </th>
+              <th v-show="viewOption.registance.fire">
+                <input type="text" v-model="condition.registance.fire" />
+              </th>
+              <th v-show="viewOption.registance.water">
+                <input type="text" v-model="condition.registance.water" />
+              </th>
+              <th v-show="viewOption.registance.thunder">
+                <input type="text" v-model="condition.registance.thunder" />
+              </th>
+              <th v-show="viewOption.registance.ice">
+                <input type="text" v-model="condition.registance.ice" />
+              </th>
+              <th v-show="viewOption.registance.dragon">
+                <input type="text" v-model="condition.registance.dragon" />
+              </th>
+              <th v-show="viewOption.skills">
+                <input type="text" v-model="condition.skills" />
+              </th>
+              <th v-show="viewOption.materials">
+                <input type="text" v-model="condition.materials" />
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="equip in results">
+            <tr v-for="equip in items">
               <td v-text="equip.name" v-show="viewOption.name"></td>
-              <td v-text="equip.gender" v-show="viewOption.gender"></td>
-              <td v-text="equip.type" v-show="viewOption.type"></td>
+              <td v-text="equip.gender | convertGender" v-show="viewOption.gender"></td>
+              <td v-text="equip.type | convertType" v-show="viewOption.type"></td>
               <td v-text="equip.rare" v-show="viewOption.rare"></td>
               <td v-text="equip.slot" v-show="viewOption.slot"></td>
               <td v-text="equip.timing.village" v-show="viewOption.timing.village"></td>
@@ -263,9 +304,10 @@
         </table>
       </div>
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.4/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.8/vue.js"></script>
     <script src="lib/model/equipment.js"></script>
     <script src="lib/model/view-option.js"></script>
+    <script src="lib/model/filter-option.js"></script>
     <script src="lib/component/csv-loader.js"></script>
     <script src="lib/component/view-options.js"></script>
     <script src="lib/component/extractor.js"></script>

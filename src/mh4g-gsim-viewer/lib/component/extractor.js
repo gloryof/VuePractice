@@ -1,5 +1,16 @@
 var Extractor = Vue.extend({
     template: "#extractor",
+    data: function() {
+        return {
+            condition: new FilterOption()
+        };
+    },
+    computed: {
+        items: function() {
+
+            return this.condition.extractFrom(this.results);
+        }
+    },
     props: {
         results: {
             type: Array,
@@ -10,5 +21,36 @@ var Extractor = Vue.extend({
             required: true
         }
     },
+    filters: {
+        convertGender: function(value) {
+
+            if (value === 1) {
+
+                return "男";
+            }
+
+            if (value === 2) {
+
+                return "女";
+            }
+
+            return "両";
+        },
+        convertType: function(value) {
+
+            if (value === 1) {
+
+                return "剣士";
+            }
+
+            if (value === 2) {
+
+                return "ガンナー";
+            }
+
+            return "両方";
+
+        }
+    }
 });
 Vue.component("extractor", Extractor);
