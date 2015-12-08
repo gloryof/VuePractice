@@ -8,10 +8,24 @@
     <link href="style/extractor.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <p>
-      頑張って作ったモンハンシミュレータ for MH4Gで公開されているCSVデータを読む為のツールです。<br>
-      データについては<a href="http://www.geocities.jp/masax_mh/mh4g/">こちら</a>からダウンロードしてください。<br>
-    </p>
+    <article>
+      <section>
+        <p>
+          頑張って作ったモンハンシミュレータ for MH4Gで公開されているCSVデータを読む為のツールです。<br>
+          データについては<a href="http://www.geocities.jp/masax_mh/mh4g/">こちら</a>からダウンロードしてください。<br>
+        </p>
+      </section>
+      <section>
+        <p>この機能性で使える機能は下記になります。</p>
+        <dl>
+          <dt>数値検索</dt>
+          <dd>
+            0、10など数値のみで入力するとその値に一致するもののみ抽出されます。<br>
+            >=、>、<、<=のいずれかを先頭につけると以上、以下などの検索が行えます。
+          </dd>
+        </dl>
+      </section>
+    </article>
     <div id="viewer">
       <csv-loader v-on:load-result="setLoadData"></csv-loader>
       <view-options v-on:change-setting="setViewOptions"></view-options>
@@ -231,37 +245,37 @@
                 </select>
               </th>
               <th v-show="viewOption.rare">
-                <input type="text" v-model="condition.rare" />
+                <input type="text" v-model="condition.rare" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.slot">
-                <input type="text" v-model="condition.slot" />
-              </th>
-              <th v-show="viewOption.timing.village">
-                <input type="text" v-model="condition.village" />
+                <input type="text" v-model="condition.slot" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.timing.rally">
-                <input type="text" v-model="condition.rally" />
+                <input type="text" v-model="condition.timing.rally" placeholder="数値検索" />
+              </th>
+              <th v-show="viewOption.timing.village">
+                <input type="text" v-model="condition.timing.village" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.difense.min">
-                <input type="text" v-model="condition.difense.min" />
+                <input type="text" v-model="condition.difense.min" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.difense.max">
-                <input type="text" v-model="condition.difense.max" />
+                <input type="text" v-model="condition.difense.max" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.registance.fire">
-                <input type="text" v-model="condition.registance.fire" />
+                <input type="text" v-model="condition.registance.fire" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.registance.water">
-                <input type="text" v-model="condition.registance.water" />
+                <input type="text" v-model="condition.registance.water" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.registance.thunder">
-                <input type="text" v-model="condition.registance.thunder" />
+                <input type="text" v-model="condition.registance.thunder" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.registance.ice">
-                <input type="text" v-model="condition.registance.ice" />
+                <input type="text" v-model="condition.registance.ice" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.registance.dragon">
-                <input type="text" v-model="condition.registance.dragon" />
+                <input type="text" v-model="condition.registance.dragon" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.skills">
                 <input type="text" v-model="condition.skills" />
@@ -278,8 +292,8 @@
               <td v-text="equip.type | convertType" v-show="viewOption.type"></td>
               <td v-text="equip.rare" v-show="viewOption.rare"></td>
               <td v-text="equip.slot" v-show="viewOption.slot"></td>
-              <td v-text="equip.timing.village" v-show="viewOption.timing.village"></td>
-              <td v-text="equip.timing.rally" v-show="viewOption.timing.rally"></td>
+              <td v-text="equip.timing.rally | convertTiming" v-show="viewOption.timing.rally"></td>
+              <td v-text="equip.timing.village | convertTiming" v-show="viewOption.timing.village"></td>
               <td v-text="equip.difense.min" v-show="viewOption.difense.min"></td>
               <td v-text="equip.difense.max" v-show="viewOption.difense.max"></td>
               <td v-text="equip.registance.fire" v-show="viewOption.registance.fire"></td>

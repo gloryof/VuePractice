@@ -49,7 +49,14 @@ var Extractor = Vue.extend({
             }
 
             return "両方";
+        },
+        convertTiming: function(value) {
+            if (value == 99) {
 
+                return "入手不可";
+            }
+
+            return "★" + value;
         }
     }
 });

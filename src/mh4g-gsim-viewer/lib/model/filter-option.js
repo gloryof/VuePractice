@@ -9,8 +9,8 @@ var FilterOption = function() {
     this.rare = null;
     this.slot = null;
     this.timing = {
-        village: null,
-        rally: null
+        village: "",
+        rally: ""
     };
     this.difense = {
         min: null,
@@ -51,16 +51,25 @@ FilterOption.prototype = {
 
             switch(propKey) {
 
+            case "rare":
+            case "slot":
+                filters.push(this._createNumericFunc(propKey, value));
+                break;
+
             case "timing":
-                if (value.village != null && value.village != "") {
+                if (value.rally != null && value.rally != "") {
+                    var searchRally = value.rally;
+                    var searchFunc = this._createNumericSearch(searchRally);
                     filters.push(new FilterCommand(function(item) {
-                        return (-1 < String(item.timing.village).indexOf(value.village));
+                        return searchFunc(item.timing.rally);
                     }));
                 }
 
-                if (value.rally != null && value.rally != "") {
+                if (value.village != null && value.village != "") {
+                    var searchVillage = value.village;
+                    var searchFunc = this._createNumericSearch(searchVillage);
                     filters.push(new FilterCommand(function(item) {
-                        return (-1 < String(item.rally.village).indexOf(value.rally));
+                        return searchFunc(item.timing.village);
                     }));
                 }
 
@@ -68,22 +77,71 @@ FilterOption.prototype = {
 
             case "difense":
                 if (value.min != null && value.min != "") {
+                    var searchMin = value.min;
+                    var searchFunc = this._createNumericSearch(searchMin);
                     filters.push(new FilterCommand(function(item) {
 
-                        return (-1 < String(item.difense.min).indexOf(value.min));
+                        return searchFunc(item.difense.min);
                     }));
                 }
 
                 if (value.max != null && value.max != "") {
+                    var searchMax = value.max;
+                    var searchFunc = this._createNumericSearch(searchMax);
                     filters.push(new FilterCommand(function(item) {
 
-                        return (-1 < String(item.difense.max).indexOf(value.max));
+                        return searchFunc(item.difense.max);
                     }));
                 }
 
                 break;
 
             case "registance":
+                if (value.fire != null && value.fire != "") {
+                    var searchFire = value.fire;
+                    var searchFunc = this._createNumericSearch(searchFire);
+                    filters.push(new FilterCommand(function(item) {
+
+                        return searchFunc(item.registance.fire);
+                    }));
+                }
+
+                if (value.water != null && value.water != "") {
+                    var searchWater = value.water;
+                    var searchFunc = this._createNumericSearch(searchWater);
+                    filters.push(new FilterCommand(function(item) {
+
+                        return searchFunc(item.registance.water);
+                    }));
+                }
+
+                if (value.thunder != null && value.thunder != "") {
+                    var searchThunder = value.thunder;
+                    var searchFunc = this._createNumericSearch(searchThunder);
+                    filters.push(new FilterCommand(function(item) {
+
+                        return searchFunc(item.registance.thunder);
+                    }));
+                }
+
+                if (value.ice != null && value.ice != "") {
+                    var searchIce = value.ice;
+                    var searchFunc = this._createNumericSearch(searchIce);
+                    filters.push(new FilterCommand(function(item) {
+
+                        return searchFunc(item.registance.ice);
+                    }));
+                }
+
+                if (value.dragon != null && value.dragon != "") {
+                    var searchDragon = value.dragon;
+                    var searchFunc = this._createNumericSearch(searchDragon);
+                    filters.push(new FilterCommand(function(item) {
+
+                        return searchFunc(item.registance.dragono);
+                    }));
+                }
+
                 break;
             default:
                 filters.push(this._createBasicFilter(propKey, value));
@@ -118,5 +176,63 @@ FilterOption.prototype = {
         data.value = value;
 
         return data;
+    },
+    _createNumericFunc: function(key, value) {
+
+        var that = this;
+        var data = new FilterCommand(function(item) {
+            var itemValue = item[this.key]
+            if (itemValue ==  null || itemValue === "") {
+                return false
+            }
+
+            var searchFunc = that._createNumericSearch(value);
+            return searchFunc(itemValue);
+        });
+        data.key = key;
+        data.value = value;
+
+        return data;
+    },
+    _createNumericSearch: function(value) {
+
+        var filterFunc = null;
+
+        if (-1 < value.search("<=")) {
+
+            return function(itemValue) {
+
+                return itemValue <= Number(value.slice(2));
+            };
+        }
+
+        if (-1 < value.search(">=")) {
+
+            return function(itemValue) {
+
+                return itemValue >= Number(value.slice(2));
+            };
+        }
+
+        if (-1 < value.search("<")) {
+
+            return function(itemValue) {
+
+                return itemValue < Number(value.slice(1));
+            };
+        }
+
+        if (-1 < value.search(">")) {
+
+            return function(itemValue) {
+
+                return itemValue > Number(value.slice(1));
+            };
+        }
+
+        return function(itemValue) {
+
+            return itemValue == value;
+        }
     }
 }
