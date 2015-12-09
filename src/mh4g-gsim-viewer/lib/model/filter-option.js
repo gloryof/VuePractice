@@ -143,6 +143,63 @@ FilterOption.prototype = {
                 }
 
                 break;
+
+            case "skills":
+
+                var isMatchKey = (0 <= value.indexOf("name:"));
+                var isMatchValue = (0 <= value.indexOf("value:"));
+                var isNameValueSearch = false;
+                var searchName = null;
+                var searchValue = null;
+                if (isMatchValue && isMatchKey) {
+
+                    var values = value.split(" ");
+                    for (var i = 0; i < values.length; i++) {
+
+                        var splitValue = values[i];
+                        if (splitValue.indexOf("name:") == 0) {
+
+                            searchName = splitValue.split("name:")[1];
+                        }
+
+                        if (splitValue.indexOf("value:") == 0) {
+
+                            searchValue = splitValue.split("value:")[1];
+                        }
+                    }
+
+                    isNameValueSearch = ( (searchName != null) && (searchValue != null) );
+                }
+
+                if (isNameValueSearch) {
+
+                    var searchFunc = this._createNumericSearch(searchValue);
+                    filters.push(new FilterCommand(function(item) {
+
+                        var skills = item.skills;
+                        for (var i = 0; i < skills.length; i++) {
+
+                            var skill = skills[i];
+                            if (skill.name != searchName) {
+
+                                continue;
+                            }
+
+                            if (searchFunc(skill.value)) {
+
+                                return true;
+                            }
+                        }
+                        return false;
+                    }));
+
+                } else {
+
+                    filters.push(this._createBasicFilter(propKey, value));
+                }
+
+                break;
+
             default:
                 filters.push(this._createBasicFilter(propKey, value));
                 break;

@@ -23,6 +23,12 @@
             0、10など数値のみで入力するとその値に一致するもののみ抽出されます。<br>
             >=、>、<、<=のいずれかを先頭につけると以上、以下などの検索が行えます。
           </dd>
+          <dt>名前値検索</dt>
+          <dd>
+            対象のスキル名とスキル値で検索することができます。<br>
+            「name:体力 value:2」の形式で入力してください。<br>
+            valueは数値検索と同じ形式で検索できます。
+          </dd>
         </dl>
       </section>
     </article>
@@ -278,7 +284,7 @@
                 <input type="text" v-model="condition.registance.dragon" placeholder="数値検索" />
               </th>
               <th v-show="viewOption.skills">
-                <input type="text" v-model="condition.skills" />
+                <input type="text" v-model="condition.skills" placeholder="名前値検索" />
               </th>
               <th v-show="viewOption.materials">
                 <input type="text" v-model="condition.materials" />
