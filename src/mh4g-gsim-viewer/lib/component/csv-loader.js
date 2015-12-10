@@ -2,7 +2,8 @@ var CsvLoader = Vue.extend({
     template: "#csv-loader",
     data: function() {
         return {
-            csvValues: ""
+            csvValues: "",
+            view: true
         };
     },
     methods: {
@@ -21,6 +22,9 @@ var CsvLoader = Vue.extend({
             });
 
             this.$emit("load-result", result);
+        },
+        toggle:function() {
+            this.view = !this.view;
         }
     }
 });

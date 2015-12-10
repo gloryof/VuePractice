@@ -41,14 +41,16 @@
       <div class="csv-loader">
         <fieldset>
           <legend>
-            <a href="javascript:void(0)">CSVデータ</a>
+            <a href="javascript:void(0)" v-on:click="toggle">CSVデータ</a>
           </legend>
-          <textarea v-model="csvValues"></textarea>
-          <ul class="buttons">
-            <li>
-              <button v-on:click="load">読み込み</button>
-            </li>
-          </ul>
+          <div class="wrap" v-show="view">
+            <textarea v-model="csvValues"></textarea>
+            <ul class="buttons">
+              <li>
+                <button v-on:click="load">読み込み</button>
+              </li>
+            </ul>
+          </div>
         </fieldset>
       </div>
     </script>
@@ -56,9 +58,9 @@
       <div class="view-options" v-on:change.stop="reflectParent">
         <fieldset>
           <legend>
-            <a href="javascript:void(0)">表示オプション</a>
+            <a href="javascript:void(0)" v-on:click="toggle">表示オプション</a>
           </legend>
-          <div class="list-wrap">
+          <div class="list-wrap" v-show="view">
             <dl class="options">
               <dt>名前</dt>
               <dd>
@@ -213,20 +215,92 @@
         <table class="datas">
           <thead>
             <tr>
-              <th v-show="viewOption.name">名前</th>
+              <th v-show="viewOption.name">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('name')">
+                  名前
+                  <span v-if="sort.key == 'name' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'name' && sort.order == -1">▼</span>
+                </a>
+              </th>
               <th v-show="viewOption.gender">性別</th>
               <th v-show="viewOption.type">タイプ</th>
-              <th v-show="viewOption.rare">レア度</th>
-              <th v-show="viewOption.slot">スロット数</th>
-              <th v-show="viewOption.timing.village">入手時期/集</th>
-              <th v-show="viewOption.timing.rally">入手時期/村</th>
-              <th v-show="viewOption.difense.min">初期防御力</th>
-              <th v-show="viewOption.difense.max">最終防御力</th>
-              <th v-show="viewOption.registance.fire">火耐性</th>
-              <th v-show="viewOption.registance.water">水耐性</th>
-              <th v-show="viewOption.registance.thunder">雷耐性</th>
-              <th v-show="viewOption.registance.ice">氷耐性</th>
-              <th v-show="viewOption.registance.dragon">龍耐性</th>
+              <th v-show="viewOption.rare">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('rare')">
+                  レア度
+                  <span v-if="sort.key == 'rare' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'rare' && sort.order == -1">▼</span>
+                </a>
+              </th>
+              <th v-show="viewOption.slot">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('slot')">
+                  スロット
+                  <span v-if="sort.key == 'slot' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'slot' && sort.order == -1">▼</span>
+                </a>
+              </th>
+              <th v-show="viewOption.timing.village">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('timing.rally')">
+                  入手時期/集
+                  <span v-if="sort.key == 'timing.rally' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'timing.rally' && sort.order == -1">▼</span>
+                </a>
+              </th>
+              <th v-show="viewOption.timing.rally">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('timing.village')">
+                  入手時期/村
+                  <span v-if="sort.key == 'timing.village' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'timing.village' && sort.order == -1">▼</span>
+                </a>
+              </th>
+              <th v-show="viewOption.difense.min">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('difense.min')">
+                  初期防御力
+                  <span v-if="sort.key == 'difense.min' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'difense.min' && sort.order == -1">▼</span>
+                </a>
+              </th>
+              <th v-show="viewOption.difense.max">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('difense.max')">
+                  最終防御力
+                  <span v-if="sort.key == 'difense.max' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'difense.max' && sort.order == -1">▼</span>
+               </a>
+              </th>
+              <th v-show="viewOption.registance.fire">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('registance.fire')">
+                  火耐性
+                  <span v-if="sort.key == 'registance.fire' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'registance.fire' && sort.order == -1">▼</span>
+               </a>
+              </th>
+              <th v-show="viewOption.registance.water">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('registance.water')">
+                  水耐性
+                  <span v-if="sort.key == 'registance.water' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'registance.water' && sort.order == -1">▼</span>
+               </a>
+              </th>
+              <th v-show="viewOption.registance.thunder">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('registance.thunder')">
+                  雷耐性
+                  <span v-if="sort.key == 'registance.thunder' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'registance.thunder' && sort.order == -1">▼</span>
+               </a>
+              </th>
+              <th v-show="viewOption.registance.ice">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('registance.ice')">
+                  氷耐性
+                  <span v-if="sort.key == 'registance.ice' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'registance.ice' && sort.order == -1">▼</span>
+               </a>
+              </th>
+              <th v-show="viewOption.registance.dragon">
+                <a href="javascipt:void(0)" v-on:click="changeOrder('registance.dragon')">
+                  龍耐性
+                  <span v-if="sort.key == 'registance.dragon' && sort.order == 1">▲</span>
+                  <span v-if="sort.key == 'registance.dragon' && sort.order == -1">▼</span>
+               </a>
+              </th>
               <th v-show="viewOption.skills">スキル</th>
               <th v-show="viewOption.materials">生産素材</th>
             </tr>
@@ -292,7 +366,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="equip in items">
+            <tr v-for="equip in items | orderBy sort.key sort.order">
               <td v-text="equip.name" v-show="viewOption.name"></td>
               <td v-text="equip.gender | convertGender" v-show="viewOption.gender"></td>
               <td v-text="equip.type | convertType" v-show="viewOption.type"></td>
@@ -324,7 +398,7 @@
         </table>
       </div>
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.8/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.11/vue.js"></script>
     <script src="lib/model/equipment.js"></script>
     <script src="lib/model/view-option.js"></script>
     <script src="lib/model/filter-option.js"></script>

@@ -2,7 +2,11 @@ var Extractor = Vue.extend({
     template: "#extractor",
     data: function() {
         return {
-            condition: new FilterOption()
+            condition: new FilterOption(),
+            sort: {
+                key: "name",
+                order: 1
+            }
         };
     },
     computed: {
@@ -19,6 +23,18 @@ var Extractor = Vue.extend({
         viewOption: {
             type: ViewOption,
             required: true
+        }
+    },
+    methods: {
+        changeOrder: function(key) {
+            if (this.sort.key == key) {
+
+                this.sort.order *= -1;
+            } else {
+
+                this.sort.key = key;
+                this.sort.order = 1;
+            }
         }
     },
     filters: {
