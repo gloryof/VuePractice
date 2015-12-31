@@ -1,0 +1,22 @@
+@charaset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+table.data-list {
+    border-collapse: collapse;
+}
+
+table.data-list > thead > tr > th,
+table.data-list > tbody > tr > td {
+    padding: 4px;
+    border: solid 1px #999;
+}
+
+canvas#wepon-graph {
+    border: solid 1px #999;
+    padding: 10px;
+    width: 500px;
+    height: 500px;
+}

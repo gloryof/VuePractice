@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>vue-router Practice</title>
+    <link href="css/style.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <article id="wepon-app">
+      <router-view></router-view>
+    </article>
+    <template id="wepon-list">
+      <article>
+        <table class="data-list">
+          <thead>
+            <tr>
+              <th>名前</th>
+              <th>価格</th>
+              <th>射程</th>
+              <th>火力</th>
+              <th>連射</th>
+              <th>サブ</th>
+              <th>スペシャル</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in results">
+              <td>
+                <a v-link="{ name: 'detail', params: { id: item.id }  }" v-text="item.name"></a>
+              </td>
+              <td v-text="item.price"></td>
+              <td v-text="item.range"></td>
+              <td v-text="item.fire"></td>
+              <td v-text="item.rapid"></td>
+              <td v-text="item.sub"></td>
+              <td v-text="item.special"></td>
+              <td v-text="item.note"></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </template>
+    <template id="wepon-detail">
+      <article>
+        <a v-link="{ path: '/list' }">一覧に戻る</a>
+        <dl class="wepon-data">
+          <dt>名前</dt>
+          <dd v-text="wepon.name"></dd>
+          <dt>価格</dt>
+          <dd v-text="wepon.price"></dd>
+          <dt>性能</dt>
+          <dd>
+            <div>
+              <dl>
+                <dt>射程</dt>
+                <dd v-text="wepon.range"></dd>
+                <dt>火力</dt>
+                <dd v-text="wepon.fire"></dd>
+                <dt>連射</dt>
+                <dd v-text="wepon.rapid"></dd>
+              </dl>
+            </div>
+            <div>
+              <canvas id="wepon-graph"></canvas>
+            </div>
+          </dd>
+          <dt>サブ</dt>
+          <dd v-text="wepon.sub"></dd>
+          <dt>スペシャル</dt>
+          <dd v-text="wepon.special"></dd>
+          <dt>備考</dt>
+          <dd v-text="wepon.note"></dd>
+        </dl>
+      </article>
+    </template>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/0.7.7/vue-router.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <script src="data/wepon-data.js"></script>
+    <script src="lib/component/list.js"></script>
+    <script src="lib/component/detail.js"></script>
+    <script src="lib/load.js"></script>
+  </body>
+</html>
